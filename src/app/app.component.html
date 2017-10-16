@@ -1,3 +1,7 @@
-<div>
+<div *ngFor="let configuration of data">
+  {{ configuration.name }}
+  {{ configuration.hostname }}
+  {{ configuration.port }}
+  {{ configuration.username }}
 </div>
 
