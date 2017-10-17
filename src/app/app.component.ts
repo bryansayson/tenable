@@ -11,6 +11,7 @@ import { SearchPipe } from './pipes/search.pipe';
 export class AppComponent {
   data : any;
   count: number;
+  searchText: string;
 
   constructor(private dataService: DataService) {}
 
