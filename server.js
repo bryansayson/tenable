@@ -23,12 +23,27 @@ app.use(express.static(__dirname + '/dist'));
 // Heroku port
 app.listen(process.env.PORT || 8080);
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+//Set CORS header and intercept "OPTIONS" preflight call from AngularJS
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === "OPTIONS") 
+        res.send(200);
+    else 
+        next();
+}
+
+app.use(allowCrossDomain);
 
 app.get('/download/request', function (req, res) {
   res.json(data.configurations.slice(0, req.query.host));
+});
+
+app.delete('/delete/:name', function (req, res) {
+  var host = data.configurations.find(function(host) {
+    return host.name == req.params.name;
+  });
+  data.configurations.splice(data.configurations.indexOf(host), 1);
+  res.json(host);
 });

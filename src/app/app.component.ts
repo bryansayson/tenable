@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from './services/data.service';
+import { SearchPipe } from './pipes/search.pipe';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { DataService } from './services/data.service';
 
 export class AppComponent {
   data : any;
+  count: number;
 
   constructor(private dataService: DataService) {}
 
@@ -17,8 +19,13 @@ export class AppComponent {
   }
 
   getData() {
-	this.dataService.getData().subscribe((response) => {
-		this.data = response;
-	});
+  	this.dataService.getData().subscribe((response) => {
+  		this.data = response;
+      this.count = this.data.length;
+  	});
+  }
+
+  deleteHost(host: object) {
+    this.dataService.deleteData(host);
   }
 }
