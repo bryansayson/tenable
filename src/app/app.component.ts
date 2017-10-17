@@ -17,9 +17,8 @@ export class AppComponent {
   }
 
   getData() {
-	this.dataService.getData().subscribe((res) => {
-		this.data = res;
-		console.log(res);
+	this.dataService.getData().subscribe((response) => {
+		this.data = response;
 	});
   }
 }
