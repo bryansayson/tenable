@@ -2,7 +2,13 @@
   <div class="jumbotron">
     <h1>Hosts</h1>
     <p>You wanted hosts, you got em.</p>
-    <p><a class="btn btn-primary btn-lg">Learn more</a></p>
+    <form #f="ngForm" (ngSubmit)="addHost(f)" novalidate>
+      <input name="name" placeholder="Please enter name..." ngModel>
+      <input name="hostname" placeholder="Please enter hostname..." ngModel>
+      <input name="port" placeholder="Please enter port..." ngModel>
+      <input name="username" placeholder="Please enter username..." ngModel>
+      <button class="alert-success"> Add Host! </button>
+    </form>
   </div>
 
   <div class="alert alert-dismissible alert-success">

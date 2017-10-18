@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const data = {
   	"configurations": [
   		{
@@ -16,12 +17,13 @@ const data = {
   		}
   	]
 }
+
 // Run the app by serving the static files
 // in the dist directory
+
 app.use(express.static(__dirname + '/dist'));
 // Start the app by listening on the default
 // Heroku port
-app.listen(process.env.PORT || 8080);
 
 //Set CORS header and intercept "OPTIONS" preflight call from AngularJS
 var allowCrossDomain = function(req, res, next) {
@@ -36,8 +38,17 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
+// parse application/json
+app.use(bodyParser.json());
+
+app.listen(process.env.PORT || 8080);
+
 app.get('/download/request', function (req, res) {
   res.json(data.configurations.slice(0, req.query.host));
+});
+
+app.get('/download/all', function (req, res) {
+  res.json(data.configurations);
 });
 
 app.delete('/delete/:name', function (req, res) {
@@ -46,4 +57,10 @@ app.delete('/delete/:name', function (req, res) {
   });
   data.configurations.splice(data.configurations.indexOf(host), 1);
   res.json(host);
+});
+
+app.post('/add', function (req, res) {
+  var newHost = req.body;
+  data.configurations.push(newHost);
+  res.json(newHost);
 });

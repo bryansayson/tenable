@@ -5,3 +5,11 @@
 .trash {
 	cursor: pointer;
 }
+
+form {
+	margin-top: 30px;
+}
+
+form input {
+	margin-right: 10px;
+}
